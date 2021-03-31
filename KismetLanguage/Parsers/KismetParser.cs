@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Markdig;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
@@ -9,11 +10,28 @@ namespace KismetLanguage.Parsers
     {
         public static string ParseMarkdown(string Text)
         {
-            Console.WriteLine("foo");
-            var document = Markdown.Parse(Text);
-            foreach (var item in document)
+            if (string.IsNullOrEmpty(Text))
             {
-                Console.WriteLine(item);
+                return null;
+            }
+
+            var document = Markdown.Parse(Text);
+            var texts = new List<string>();
+            foreach (var item in document.Descendants())
+            {
+                if (item is CodeBlock codeBlock)
+                {
+                    texts.Add(codeBlock.Lines.ToString());
+                }
+                else if (item is CodeInline codeInline)
+                {
+                    texts.Add(codeInline.Content);
+                }
+            }
+
+            if (texts.Count == 0)
+            {
+                return null;
             }
             return "";
         }
