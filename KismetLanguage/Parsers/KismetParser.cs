@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Markdig;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 
 namespace KismetLanguage.Parsers
 {
     public class KismetParser
     {
-        public static string ParseMarkdown(string input, bool outputMarkdown = true)
+        public static string ParseMarkdown(string input, bool outputMarkdown = false)
         {
             if (string.IsNullOrEmpty(input))
             {
@@ -37,9 +39,16 @@ namespace KismetLanguage.Parsers
             return string.Join("\n", parsed);
         }
 
-        public static string ParseText(string input, bool outputMarkdown = true)
+        public static string ParseText(string input, bool outputMarkdown = false)
         {
-            var result = input;
+            var stream = CharStreams.fromString(input);
+            var lexer = new Grammar.KismetLexer(stream);
+            var tokens = new CommonTokenStream(lexer);
+            var parser = new Grammar.KismetParser(tokens);
+            parser.BuildParseTree = true;
+            var tree = parser.start();
+
+            var result = tree.ToStringTree(parser.RuleNames);
             if (outputMarkdown)
             {
                 return $"```\n{result}\n```";
