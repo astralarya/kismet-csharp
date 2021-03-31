@@ -10,6 +10,39 @@ namespace KismetLanguage.Parsers
 {
     public class KismetParser
     {
+        public static string Parse(string input, bool outputTree = true)
+        {
+            var stream = CharStreams.fromString(input);
+            var lexer = new Grammar.KismetLexer(stream);
+            var tokens = new CommonTokenStream(lexer);
+            var parser = new Grammar.KismetParser(tokens);
+            parser.BuildParseTree = true;
+            var tree = parser.start();
+
+            if (outputTree)
+            {
+                return tree.ToStringTree(parser.RuleNames);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static string ParseText(string input, bool outputMarkdown = false)
+        {
+            var result = Parse(input);
+
+            if (outputMarkdown)
+            {
+                return $"```\n{result}\n```";
+            }
+            else
+            {
+                return result;
+            }
+        }
+
         public static string ParseMarkdown(string input, bool outputMarkdown = false)
         {
             if (string.IsNullOrEmpty(input))
@@ -39,24 +72,5 @@ namespace KismetLanguage.Parsers
             return string.Join("\n", parsed);
         }
 
-        public static string ParseText(string input, bool outputMarkdown = false)
-        {
-            var stream = CharStreams.fromString(input);
-            var lexer = new Grammar.KismetLexer(stream);
-            var tokens = new CommonTokenStream(lexer);
-            var parser = new Grammar.KismetParser(tokens);
-            parser.BuildParseTree = true;
-            var tree = parser.start();
-
-            var result = tree.ToStringTree(parser.RuleNames);
-            if (outputMarkdown)
-            {
-                return $"```\n{result}\n```";
-            }
-            else
-            {
-                return result;
-            }
-        }
     }
 }

@@ -12,7 +12,7 @@ namespace KismetBot.Bots
     {
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var replyText = KismetParser.ParseMarkdown(turnContext.Activity.Text);
+            var replyText = KismetParser.ParseText(turnContext.Activity.Text);
             await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
         }
     }
