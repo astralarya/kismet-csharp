@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using KismetLanguage.Parsers;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-
-using KismetLanguage.Parsers;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KismetBot.Bots
 {

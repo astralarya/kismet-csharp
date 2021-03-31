@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using Antlr4.Runtime;
 using Markdig;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KismetLanguage.Parsers
 {
