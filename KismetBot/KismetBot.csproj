@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KismetParser\KismetParser.csproj" />
+    <ProjectReference Include="..\KismetLanguage\KismetLanguage.csproj" />
   </ItemGroup>
 
 </Project>

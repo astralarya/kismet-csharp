@@ -4,15 +4,16 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-using KismetParser;
+using KismetLanguage.Parsers;
 
 namespace KismetBot.Bots
 {
-    public class KismetBot : ActivityHandler
+    public class ChatBot : ActivityHandler
     {
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var replyText = $"Echo: {turnContext.Activity.Text}";
+            KismetParser.ParseMarkdown(turnContext.Activity.Text);
             await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
         }
     }
